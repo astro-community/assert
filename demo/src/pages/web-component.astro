@@ -1,0 +1,18 @@
+---
+import TimeStamp from '../components/HTMLTimeStampElement.js' assert { type: 'web-component' }
+
+const date = new Date('2022-01-01T12:00Z')
+---
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Web Component Assertion Demo</title>
+	</head>
+	<body>
+		<h1>Web Component Assertion Demo</h1>
+		<TimeStamp datetime={date.toISOString()}>
+			{date.toLocaleDateString()}
+		</TimeStamp>
+	</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "name": "@astropub/assert.root",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "demo",
+    "packages/*"
+  ],
+  "scripts": {
+    "start": "astro --project-root demo dev",
+    "build": "astro --project-root demo build",
+    "serve": "astro --project-root demo preview",
+    "release": "npm publish packages/assert --access public"
+  },
+  "devDependencies": {
+    "astro": "^0.22.9"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "useTabs": true,
+    "overrides": [
+      {
+        "files": [
+          ".stackblitzrc",
+          "*.json"
+        ],
+        "options": {
+          "useTabs": false
+        }
+      }
+    ]
+  }
+}

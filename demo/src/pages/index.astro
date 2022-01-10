@@ -1,0 +1,24 @@
+---
+import Heading from '../components/Heading.astro';
+import contentOfHeading from '../components/Heading.astro' assert { type: 'text' };
+
+import textData from '../data.random' assert { type: 'text' };
+import jsonData from '../data.random' assert { type: 'json' };
+---
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Import Assertion Demos</title>
+	</head>
+	<body>
+		<Heading>Import Assertion Demos</Heading>
+		<pre>{contentOfHeading}</pre>
+		<hr />
+		<h3>{jsonData.name}</h3>
+		<pre>{textData}</pre>
+		<hr />
+		<p><a href="/react-component">React Component Demo</a></p>
+		<p><a href="/web-component">Web Component Demo</a></p>
+	</body>
+</html>

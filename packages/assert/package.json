@@ -1,0 +1,25 @@
+{
+  "name": "@astropub/assert",
+  "type": "module",
+  "version": "0.1.0",
+  "exports": {
+    ".": "./index.js",
+    "./server.js": "./server.js"
+  },
+  "files": [
+    "index.js",
+    "server.js",
+    "lib"
+  ],
+  "keywords": [
+    "assert",
+    "assertion",
+    "assertions",
+    "asserts",
+    "astro",
+    "import",
+    "imports",
+    "rollup",
+    "vite"
+  ]
+}

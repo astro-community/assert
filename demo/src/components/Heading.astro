@@ -1,0 +1,22 @@
+---
+export interface Props extends Record<any, any> {
+	level?: number | string;
+	role?: string;
+}
+
+const { level, role, ...props } = {
+	...Astro.props,
+} as Props;
+
+props.role = role || 'heading';
+props['aria-level'] = level || '1';
+---
+<h {...props}><slot /></h>
+<style global>
+	h {
+		display: block;
+		font-size: 2em;
+		font-weight: bold;
+		margin-block: 0.67em;
+	}
+</style>
