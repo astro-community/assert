@@ -22,28 +22,20 @@ export const vitePlugin = (handlers) => {
 			config.plugins.unshift(plugin)
 		},
 		resolveId(sourceId, importerId, options) {
-			return this.resolve(sourceId, importerId, { skipSelf: true, ...options }).then(
+			if (!sourceId || !sourceId.includes('assert=')) return
+
+			const [ resolveId, assert ] = withModuleAssertions(sourceId)
+
+			return this.resolve(resolveId, importerId, { skipSelf: true, ...options }).then(
 				resolution => {
 					// skip null resolutions
 					if (resolution == null) return resolution
 
-					const [ resolveId, search ] = resolution.id.split(/(?<=^[^?]+)\?/)
-					const params = new URLSearchParams(search)
-		
-					if (params.has('assert')) {
-						const assertionJSON = params.get('assert')
+					setModuleAssertions(sourceId, resolution.id, assert)
 
-						/** @type {AssertionData} */
-						const assertionData = JSON.parse(assertionJSON)
-		
-						params.delete('assert')
-		
-						const searchParams = [ ...params ].length ? `?${params}` : ''
+					resolution.id = sourceId
 
-						setModuleAssertions(resolution.id, resolveId + searchParams, assertionData)
-
-						return resolution
-					}
+					return resolution
 				}
 			)
 		},
@@ -76,6 +68,26 @@ const setModuleAssertions = (
 	/** @type {AssertionData} */ assert
 ) => {
 	moduleAssertions[resolveId] = { id, assert }
+}
+
+const withModuleAssertions = (
+	/** @type {string} */ id
+) => {
+	const [ resolveId, search ] = id.split(/(?<=^[^?]+)\?/)
+	const params = new URLSearchParams(search)
+
+	if (!params.has('assert')) return [ resolveId, null ]
+
+	const assertionJSON = params.get('assert')
+
+	/** @type {AssertionData} */
+	const assertionData = JSON.parse(assertionJSON)
+
+	params.delete('assert')
+
+	const searchParams = [ ...params ].length ? `?${params}` : ''
+
+	return [ resolveId + searchParams, assertionData ]
 }
 
 /** @type {AssertionMap} */
