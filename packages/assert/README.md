@@ -26,17 +26,19 @@ export default {
 You can pass in special handlers for `load` and `transform` when imports with assertions are encountered.
 
 ```js
-import { assertions } from '@astropub/assert'
-
 // astro.config.js
+import { assertPlugin } from '@astropub/assert'
+
 export default {
   vite: {
     plugins: [
-      load(id, assert) {
-        console.log(assert)
-        // e.g. { type: "json" }
-        // e.g. { type: "react-component", client: "load" }
-      }
+      assertPlugin({
+        load(id, assert) {
+          console.log(assert)
+          // e.g. { type: "json" }
+          // e.g. { type: "react-component", client: "load" }
+        }
+      })
     ]
   }
 }
