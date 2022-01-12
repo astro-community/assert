@@ -30,5 +30,8 @@
         }
       }
     ]
+  },
+  "devDependencies": {
+    "astro": "latest"
   }
 }
