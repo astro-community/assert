@@ -1,20 +1,18 @@
 {
   "name": "@astropub/assert.root",
   "type": "module",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "workspaces": [
     "demo",
     "packages/*"
   ],
   "scripts": {
+    "bump:patch": "npm --workspaces --git-tag-version false version patch && npm --git-tag-version false version patch",
     "start": "astro --project-root demo dev",
     "build": "astro --project-root demo build",
     "serve": "astro --project-root demo preview",
     "release": "cd packages/assert && npm publish --access public"
-  },
-  "devDependencies": {
-    "astro": "^0.22.9"
   },
   "prettier": {
     "semi": false,

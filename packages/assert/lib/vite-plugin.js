@@ -4,16 +4,19 @@ export const name = '@astropub/assert'
 
 /** @type {PluginFactory} */
 export const vitePlugin = (handlers) => {
+	handlers = Object(handlers)
+
 	/** @type {Plugin} */
 	const plugin = {
 		name,
 		enforce: 'pre',
-		options() {
-			return {
-				acornInjectPlugins: [
-					acornImportAssertionsPlugin,
-				],
-			}
+		options(options) {
+			options = Object(options)
+
+			options.acornInjectPlugins = options.acornInjectPlugins || []
+			options.acornInjectPlugins.push(acornImportAssertionsPlugin)
+
+			return options
 		},
 		configResolved(config) {
 			const index = config.plugins.indexOf(plugin)
