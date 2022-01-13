@@ -5,21 +5,17 @@ export const defaultOptions = {
 	load(id, assert) {
 		if (assert.type === 'json') {
 			return fs.readFile(id, 'utf-8').then(
-				data => {
-					return {
-						code: `export default ${JSON.stringify(JSON.parse(data))}`
-					}
-				}
+				data => ({
+					code: `export default ${JSON.stringify(JSON.parse(data))}`
+				})
 			)
 		}
 
 		if (assert.type === 'text') {
 			return fs.readFile(id, 'utf-8').then(
-				data => {
-					return {
-						code: `export default ${JSON.stringify(data.replace(/</g, '&lt;'))}`
-					}
-				}
+				data => ({
+					code: `export default ${JSON.stringify(data.replace(/</g, '&lt;'))}`
+				})
 			)
 		}
 

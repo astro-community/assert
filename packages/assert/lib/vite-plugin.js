@@ -9,25 +9,35 @@ export const vitePlugin = (handlers) => {
 	/** @type {Plugin} */
 	const plugin = {
 		name,
-		enforce: 'pre',
+
+		// ensure the acorn plugin converting import assertions to query assertions is added to vite
 		options(options) {
 			options = Object(options)
 
 			options.acornInjectPlugins = options.acornInjectPlugins || []
-			options.acornInjectPlugins.push(acornImportAssertionsPlugin)
+
+			if (!options.acornInjectPlugins.includes(acornImportAssertionsPlugin)) {
+				options.acornInjectPlugins.push(acornImportAssertionsPlugin)
+			}
 
 			return options
 		},
+
+		// ensure this plugin is run before all others
 		configResolved(config) {
 			const index = config.plugins.indexOf(plugin)
 
 			config.plugins.splice(index, 1)
 			config.plugins.unshift(plugin)
 		},
+
+		// remove param assertions, resolve the path, and then restore the import assertions
 		resolveId(sourceId, importerId, options) {
 			if (!sourceId || !sourceId.includes('assert=')) return
 
 			const [ resolveId, assert ] = withModuleAssertions(sourceId)
+
+			Object.assign(this.getModuleInfo(resolveId), { assert })
 
 			return this.resolve(resolveId, importerId, { skipSelf: true, ...options }).then(
 				resolution => {
@@ -61,7 +71,7 @@ export const vitePlugin = (handlers) => {
 	return plugin
 }
 
-const getModuleAssertions = (
+export const getModuleAssertions = (
 	/** @type {string} */ resolveId
 ) => moduleAssertions[resolveId] || null
 
