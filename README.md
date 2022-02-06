@@ -43,7 +43,7 @@ import { assertPlugin } from '@astropub/assert'
 export default {
   vite: {
     plugins: [
-      assertions()
+      assertPlugin()
     ]
   }
 }
